@@ -1,20 +1,18 @@
 const express = require('express');
-const { networkInterfaces } = require('os');
-const { nextTick } = require('process');
+const morgan = require('morgan');
 
 // express app
 const app = express();
 
+// connect to mongoDB
+const dbURI = 'mongodb+srv://chase:chase@cluster0.cvvl3.mongodb.net/node-tuts?retryWrites=true&w=majority'
+
 // listen for requests
 app.listen(3000);
 
-app.use((req, res, next) => {
-  console.log('new request made:')
-  console.log('host: ', req.hostname)
-  console.log('path: ', req.path)
-  console.log('method: ', req.method)
-  next();
-})
+// middleware & static files
+app.use(express.static('public'))
+app.use(morgan('dev'))
 
 // register view engine
 app.set('view engine', 'ejs');
