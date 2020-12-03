@@ -18,8 +18,10 @@
   },
   "homepage": "https://github.com/chaselancaster/nss-be#readme",
   "dependencies": {
+    "ejs": "^3.1.5",
     "express": "^4.17.1",
     "lodash": "^4.17.20",
+    "morgan": "^1.10.0",
     "nodemon": "^2.0.6"
   }
 }
