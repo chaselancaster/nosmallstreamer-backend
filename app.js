@@ -20,4 +20,13 @@ app.use(morgan('dev'));
 // routes
 app.use('/blogs', blogRoutes);
 
-// 404 page
+// Catching error
+app.use((req, res, next) => {
+  next(createError(404));
+})
+
+// app.listen(PORT, err => {
+//   console.log(err || 'App is listening on port, ', PORT)
+// })
+
+module.exports = app;
