@@ -22,7 +22,6 @@ app.use(session({
 app.use(morgan('dev'));
 
 // routes
-app.use('/blogs', blogRoutes);
 
 // Catching error
 app.use((req, res, next) => {
