@@ -6,6 +6,8 @@ const createError = require('http-errors');
 
 require('dotenv').config();
 
+const PORT = process.env.PORT;
+
 // express app
 const app = express();
 
@@ -27,8 +29,8 @@ app.use((req, res, next) => {
   next(createError(404));
 })
 
-// app.listen(PORT, err => {
-//   console.log(err || 'App is listening on port, ', PORT)
-// })
+app.listen(PORT, err => {
+  console.log(err || 'App is listening on port, ', PORT)
+})
 
 module.exports = app;
