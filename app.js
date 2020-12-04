@@ -5,8 +5,7 @@ const mongoose = require('mongoose');
 // express app
 const app = express();
 
-// middleware & static files
-app.use(express.static('public'));
+// middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
