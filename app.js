@@ -1,12 +1,14 @@
 const express = require('express');
-const session = requires('express-session');
+const session = require('express-session');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const createError = require('http-errors');
 
 require('dotenv').config();
-
 const PORT = process.env.PORT;
+
+// db / mongoose
+require('./db/db');
 
 // express app
 const app = express();
