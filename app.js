@@ -4,6 +4,8 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const createError = require('http-errors');
 
+require('dotenv').config();
+
 // express app
 const app = express();
 
