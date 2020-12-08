@@ -7,6 +7,8 @@ const createError = require('http-errors');
 require('dotenv').config();
 const PORT = process.env.PORT;
 
+const usersRouter = require('./routes/users');
+
 // db / mongoose
 require('./db/db');
 
@@ -24,6 +26,7 @@ app.use(session({
 app.use(morgan('dev'));
 
 // routes
+app.use('/users', usersRouter);
 
 // Catching error
 app.use((req, res, next) => {

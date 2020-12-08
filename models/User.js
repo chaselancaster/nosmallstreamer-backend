@@ -6,6 +6,6 @@ const UserSchema = new mongoose.Schema({
     password: { type: String, required: true },
     email: { type: String, unique: true },
     games: [Object]
-}, timestamps);
+});
 
 module.exports = mongoose.model("User", UserSchema);
