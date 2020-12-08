@@ -17,7 +17,7 @@ require('./db/db');
 const app = express();
 
 // middleware
-app.use('cors');
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(session({
