@@ -3,6 +3,7 @@ const session = require('express-session');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const createError = require('http-errors');
+const cors = require('cors');
 
 require('dotenv').config();
 const PORT = process.env.PORT;
@@ -16,6 +17,7 @@ require('./db/db');
 const app = express();
 
 // middleware
+app.use('cors');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(session({
