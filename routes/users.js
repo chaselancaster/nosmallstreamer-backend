@@ -12,12 +12,6 @@ router.post('/register', async (req, res, next) => {
     
     try {
         const { username, password, email } = req.body
-        if (!username) {
-            return res.send({
-              success: false,
-              message: 'Username cannot be blank.'
-            });
-          }
         if (!email) {
             return res.send({
               success: false,
