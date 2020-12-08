@@ -6,10 +6,6 @@ const User = require('../models/User');
 
 router.post('/register', async (req, res, next) => {
     console.log('register route hit')
-    // Checking if any fields are blank
-  
-    // Searching for user or email in the db before registering
-    
     try {
         const { username, password, email } = req.body
         if (!email) {
@@ -32,6 +28,31 @@ router.post('/register', async (req, res, next) => {
                 user: createdUser,
                 success: true
             })
+        }
+    } catch (err) {
+        res.json({ err })
+    }
+})
+
+router.post('/login', async (req, res) => {
+    console.log('login route hit')
+    try {
+        const foundUser = await User.findOne({
+            email: req.body.email
+        })
+        if (foundUser) {
+            if (bcrypt.compareSync(req.body.password, founderUser.password)) {
+                req.session.dbId = foundUser._id
+                req.session.logged = true;
+                res.json({
+                    user: foundUser,
+                    success: true
+                })
+            } else {
+                res.json({
+                    message: 'Invalid username or password'
+                })
+            }
         }
     } catch (err) {
         res.json({ err })
