@@ -7,7 +7,13 @@ const User = require('../models/User');
 router.post('/register', async (req, res, next) => {
     console.log('register route hit')
     try {
-        const { username, password, email } = req.body
+        const { name, password, email } = req.body
+        if (!name) {
+            return res.send({
+              success: false,
+              message: 'Name cannot be blank.'
+            });
+          }
         if (!email) {
             return res.send({
               success: false,
