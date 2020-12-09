@@ -38,13 +38,10 @@ router.post('/login', async (req, res) => {
     console.log('login route hit')
     console.log(req.body)
     try {
-        console.log('trying to find user')
         const foundUser = await User.findOne({
             email: req.body.email
         })
-        console.log(foundUser, 'foundUser')
         if (foundUser) {
-            console.log('comparing passwords')
             if (bcrypt.compareSync(req.body.password, foundUser.password)) {
                 req.session.dbId = foundUser._id
                 req.session.logged = true;
