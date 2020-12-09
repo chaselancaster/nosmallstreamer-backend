@@ -71,7 +71,6 @@ router.post('/login', async (req, res) => {
 router.put('/update/:id', async (req, res) => {
     const userId = req.session.dbId ||req.params.id
     try {
-        // let { email, password } = req.body.
         const user = await User.findById(userId)
         console.log(user, '<- user in update route')
         // Checking if any field is empty and setting the req.body variable to keep the old info
@@ -86,6 +85,7 @@ router.put('/update/:id', async (req, res) => {
                 message: 'Fill in at least one field to update account.'
             })
         }
+        // Hashing password
         if (req.body.password !== "" && req.body.password !== user.password) {
             req.body.password = user.hashPassword(req.body.password)
             console.log(req.body.password, '<- password after hashed')
