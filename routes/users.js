@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 
 const User = require('../models/User');
 
+// Register
 router.post('/register', async (req, res, next) => {
     console.log('register route hit')
     try {
@@ -40,9 +41,9 @@ router.post('/register', async (req, res, next) => {
     }
 })
 
+// Login
 router.post('/login', async (req, res) => {
     console.log('login route hit')
-    console.log(req.body)
     try {
         const foundUser = await User.findOne({
             email: req.body.email
@@ -63,6 +64,41 @@ router.post('/login', async (req, res) => {
         }
     } catch (err) {
         res.json({ err })
+    }
+})
+
+// Update user
+router.put('/update/:id', async (req, res) => {
+    const userId = req.session.dbId ||req.params.id
+    try {
+        // let { email, password } = req.body.
+        const user = await User.findById(userId)
+        console.log(user, '<- user in update route')
+        // Checking if any field is empty and setting the req.body variable to keep the old info
+        if (req.body.password === "") {
+            req.body.password = user.password;
+            console.log(req.body.password, "<- password when field is blank")
+        } else if (req.body.email === "") {
+            req.body.email = user.email;
+            console.log(req.body.email, "<- email when field is blank")
+        } else if (req.body.password === "" && req.body.email === "") {
+            res.json({
+                message: 'Fill in at least one field to update account.'
+            })
+        }
+        if (req.body.password !== "" && req.body.password !== user.password) {
+            req.body.password = user.hashPassword(req.body.password)
+            console.log(req.body.password, '<- password after hashed')
+        }
+        const updatedUser = await User.findByIdAndUpdate(userId, req.body, {
+            new: true
+        })
+        console.log(updatedUser, '<- updatedUser')
+        res.json({
+            updatedUser
+        })
+    } catch (err) {
+        console.log (err, '<- err in update user')
     }
 })
 
