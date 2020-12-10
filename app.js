@@ -9,6 +9,7 @@ require('dotenv').config();
 const PORT = process.env.PORT;
 
 const usersRouter = require('./routes/users');
+const apiRouter = require('./routes/api');
 
 // db / mongoose
 require('./db/db');
@@ -29,6 +30,7 @@ app.use(morgan('dev'));
 
 // routes
 app.use('/users', usersRouter);
+app.use('api', apiRouter);
 
 // Catching error
 app.use((req, res, next) => {
