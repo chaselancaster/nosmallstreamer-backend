@@ -30,7 +30,7 @@ app.use(morgan('dev'));
 
 // routes
 app.use('/users', usersRouter);
-app.use('api', apiRouter);
+app.use('/api', apiRouter);
 
 // Catching error
 app.use((req, res, next) => {
