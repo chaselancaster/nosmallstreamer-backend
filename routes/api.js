@@ -3,7 +3,7 @@ const router = express.Router();
 const fetch = require('node-fetch');
 
 router.get('/', async (req, res) => {
-    console.log('api name route hit')
+    console.log('name route it')
 })
 
-module.exports = router;
+module.exports = router
