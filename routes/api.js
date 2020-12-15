@@ -25,6 +25,10 @@ router.get('/:name', async (req, res) => {
         })
         const parsedStreams = await streams.json()
         console.log(parsedStreams, '<- parsedStreams')
+        res.json({
+            streams: parsedStreams,
+            success: true
+        })
     } catch (err) {
         console.log(err, '<- err in call')
     }
