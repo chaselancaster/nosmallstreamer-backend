@@ -31,7 +31,7 @@ router.get('/:name', async (req, res) => {
         const parsedStreams = await streams.json()
         console.log(parsedStreams, '<- parsedStreams')
     } catch (err) {
-        console.log(err, '<- err in token call')
+        console.log(err, '<- err in call')
     }
 })
 
