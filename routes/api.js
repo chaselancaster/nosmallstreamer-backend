@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const fetch = require('node-fetch');
 
-router.get('/:name', async (req, res) => {
+router.get('/:name/:viewers', async (req, res) => {
     console.log('name route it')
     try {
         const game = await fetch(`https://api.twitch.tv/helix/games?name=${req.params.name}`, {
@@ -13,9 +13,9 @@ router.get('/:name', async (req, res) => {
             }
         })
         const parsedGame = await game.json()
-        console.log(parsedGame, '<- parsedGame')
+        // console.log(parsedGame, '<- parsedGame')
         const gameId = parsedGame.data[0].id
-        console.log(gameId, '<- gameId')
+        // console.log(gameId, '<- gameId')
         const streams = await fetch(`https://api.twitch.tv/helix/streams?game_id=${gameId}&first=100`, {
             method: 'GET',
             headers: {
@@ -24,11 +24,15 @@ router.get('/:name', async (req, res) => {
             }
         })
         const parsedStreams = await streams.json()
-        console.log(parsedStreams, '<- parsedStreams')
-        res.json({
-            streams: parsedStreams,
-            success: true
-        })
+        // console.log(parsedStreams, '<- parsedStreams')
+        const filteredStreams = parsedStreams.data.filter(
+            s => s.viewer_count <= req.params.viewers
+        );
+        console.log(filteredStreams, '<- filteredStreams')
+        // res.json({
+        //     streams: parsedStreams,
+        //     success: true
+        // })
     } catch (err) {
         console.log(err, '<- err in call')
     }
