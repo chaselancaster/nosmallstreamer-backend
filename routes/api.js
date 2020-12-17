@@ -24,14 +24,18 @@ router.get('/:name/:viewers', async (req, res) => {
             }
         })
         const parsedStreams = await streams.json()
-        // console.log(parsedStreams, '<- parsedStreams')
+        console.log(parsedStreams, '<- parsedStreams')
+        const cursor = parsedStreams.pagination.cursor
+        console.log(cursor, '<- pargination cursor')
         const filteredStreams = parsedStreams.data.filter(
             s => s.viewer_count <= req.params.viewers
         );
         // console.log(filteredStreams, '<- filteredStreams')
         res.json({
             streams: filteredStreams,
-            success: true
+            success: true,
+            gameId,
+            cursor
         })
     } catch (err) {
         console.log(err, '<- err in call')
