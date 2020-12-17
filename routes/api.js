@@ -28,11 +28,11 @@ router.get('/:name/:viewers', async (req, res) => {
         const filteredStreams = parsedStreams.data.filter(
             s => s.viewer_count <= req.params.viewers
         );
-        console.log(filteredStreams, '<- filteredStreams')
-        // res.json({
-        //     streams: parsedStreams,
-        //     success: true
-        // })
+        // console.log(filteredStreams, '<- filteredStreams')
+        res.json({
+            streams: filteredStreams,
+            success: true
+        })
     } catch (err) {
         console.log(err, '<- err in call')
     }

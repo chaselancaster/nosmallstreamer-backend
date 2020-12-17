@@ -100,7 +100,8 @@ router.put('/update/:id', async (req, res) => {
         })
         console.log(updatedUser, '<- updatedUser')
         res.json({
-            updatedUser
+            updatedUser,
+            success: true
         })
     } catch (err) {
         console.log (err, '<- err in update user')
