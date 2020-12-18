@@ -3,7 +3,7 @@ const router = express.Router();
 const fetch = require('node-fetch');
 
 router.get('/:name/:viewers', async (req, res) => {
-    console.log('name route it')
+    console.log('first stream route it')
     try {
         const game = await fetch(`https://api.twitch.tv/helix/games?name=${req.params.name}`, {
             method: 'GET',
@@ -26,7 +26,6 @@ router.get('/:name/:viewers', async (req, res) => {
         const parsedStreams = await streams.json()
         console.log(parsedStreams, '<- parsedStreams')
         const cursor = parsedStreams.pagination.cursor
-        console.log(cursor, '<- pargination cursor')
         const filteredStreams = parsedStreams.data.filter(
             s => s.viewer_count <= req.params.viewers
         );
@@ -34,11 +33,33 @@ router.get('/:name/:viewers', async (req, res) => {
         res.json({
             streams: filteredStreams,
             success: true,
-            gameId,
             cursor
         })
     } catch (err) {
-        console.log(err, '<- err in call')
+        console.log(err, '<- err in stream call')
+    }
+})
+
+router.get('/more/:cursor', async (req, res) => {
+    console.log('more stream route hit')
+    console.log(req.params, '<- req.params')
+    try {
+        const moreStreams = await fetch(`https://api.twitch.tv/helix/streams?after=${req.params.cursor}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${process.env.ACCESS_TOKEN}`,
+                'Client-Id': process.env.CLIENT_ID
+            }
+        })
+        const parsedMoreStreams = await moreStreams.json()
+        console.log(parsedMoreStreams, '<- parsedMoreStreams')
+        const cursor = parsedMoreStreams.pagination.cursor
+        res.json({
+            moreStreams: parsedMoreStreams.data,
+            cursor
+        })
+    } catch (err) {
+        console.log(err, '<- err in load more route')
     }
 })
 
