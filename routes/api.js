@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const fetch = require('node-fetch');
 
-router.get('/:name/:viewers', async (req, res) => {
+router.get('/stream/:name/:viewers', async (req, res) => {
     console.log('first stream route it')
     try {
         const game = await fetch(`https://api.twitch.tv/helix/games?name=${req.params.name}`, {
@@ -33,6 +33,7 @@ router.get('/:name/:viewers', async (req, res) => {
         res.json({
             streams: filteredStreams,
             success: true,
+            gameId,
             cursor
         })
     } catch (err) {
@@ -40,11 +41,10 @@ router.get('/:name/:viewers', async (req, res) => {
     }
 })
 
-router.get('/more/:cursor', async (req, res) => {
-    console.log('more stream route hit')
+router.get('/more/:gameId/:cursor', async (req, res) => {
     console.log(req.params, '<- req.params')
     try {
-        const moreStreams = await fetch(`https://api.twitch.tv/helix/streams?after=${req.params.cursor}`, {
+        const moreStreams = await fetch(`https://api.twitch.tv/helix/streams?game_id=${req.params.gameId}&after=${req.params.cursor}`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${process.env.ACCESS_TOKEN}`,
