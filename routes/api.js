@@ -29,13 +29,25 @@ router.get('/stream/:name/:viewers', async (req, res) => {
         const filteredStreams = parsedStreams.data.filter(
             s => s.viewer_count <= req.params.viewers
         );
-        // console.log(filteredStreams, '<- filteredStreams')
+        // if (filteredStreams.length === 0) {
+        //     console.log('if statement hit')
+        //     const testStreams = await fetch(`https://api.twitch.tv/helix/streams?game_id=${gameId}&first=100&after=${cursor}`, {
+        //         method: 'GET',
+        //         headers: {
+        //             'Authorization': `Bearer ${process.env.ACCESS_TOKEN}`,
+        //             'Client-Id': process.env.CLIENT_ID,
+        //         }
+        //     })
+        //     const parsedTestStreams = await testStreams.json()
+        //     console.log(parsedTestStreams, '<- parsedTestStreams') 
+        // }
         res.json({
             streams: filteredStreams,
             success: true,
             gameId,
             cursor
         })
+        // console.log(filteredStreams, '<- filteredStreams')
     } catch (err) {
         console.log(err, '<- err in stream call')
     }
