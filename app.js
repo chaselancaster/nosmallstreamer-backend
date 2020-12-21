@@ -32,10 +32,6 @@ app.use(morgan('dev'));
 app.use('/users', usersRouter);
 app.use('/api', apiRouter);
 
-app.get('/', (req, res) => {
-  res.send('Hello World')
-})
-
 // Catching error
 app.use((req, res, next) => {
   next(createError(404));
