@@ -37,7 +37,7 @@ app.use((req, res, next) => {
   next(createError(404));
 })
 
-app.listen(PORT, err => {
+app.listen(PORT || 3001, err => {
   console.log(err || 'App is listening on port, ', PORT)
 })
 
