@@ -2,6 +2,22 @@ const express = require('express');
 const router = express.Router();
 const fetch = require('node-fetch');
 
+const findStreams = async (gameId) => {
+    const streams = {};
+    while (streams.length === 0) {
+        const fetchCall = await fetch(`https://api.twitch.tv/helix/streams?game_id=${gameId}&first=100`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${process.env.ACCESS_TOKEN}`,
+                'Client-Id': process.env.CLIENT_ID,
+            }
+        })
+        const parsedFetchCall = await fetchCall.json()
+        streams = parsedFetchCall.data
+    }
+    return streams
+}
+
 router.get('/stream/:name/:viewers', async (req, res) => {
     console.log('first stream route it')
     try {
@@ -76,13 +92,11 @@ router.get('/more/:gameId/:cursor', async (req, res) => {
 })
 
 
-
-
 // Method to get token
 // const tokenCall = await fetch(`https://id.twitch.tv/oauth2/token?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}&grant_type=client_credentials`, { method: 'POST' 
- // })
- // const parsedToken = await tokenCall.json();
- // const token = parsedToken
+//  })
+//  const parsedToken = await tokenCall.json();
+//  const token = parsedToken
 // console.log(token, '<- token in Twitch call')
 
 module.exports = router

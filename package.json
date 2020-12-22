@@ -25,6 +25,7 @@
     "express-session": "^1.17.1",
     "express-validator": "^6.8.0",
     "http-errors": "^1.8.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.3",
     "morgan": "^1.10.0",
     "node-fetch": "^2.6.1",
