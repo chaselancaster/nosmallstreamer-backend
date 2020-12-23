@@ -39,9 +39,11 @@ router.post('/register', async (req, res, next) => {
         const createdUser = await User.create(req.body)
         if (createdUser) {
             req.session.dbId = createdUser._id
+            const accessToken = jwt.sign(createdUser.toJSON(), process.env.ACCESS_TOKEN_SECRET)
             res.json({
                 user: createdUser,
-                success: true
+                success: true,
+                accessToken: accessToken
             })
         }
     } catch (err) {
