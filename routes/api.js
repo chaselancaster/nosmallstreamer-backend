@@ -21,7 +21,8 @@ const findStreams = async (gameId) => {
 router.get('/stream/:name/:viewers', async (req, res) => {
     console.log('first stream route it')
     try {
-        const game = await fetch(`https://api.twitch.tv/helix/games?name=${req.params.name}`, {
+        const { name, viewers } = req.params
+        const game = await fetch(`https://api.twitch.tv/helix/games?name=${name}`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${process.env.ACCESS_TOKEN}`,
@@ -40,10 +41,10 @@ router.get('/stream/:name/:viewers', async (req, res) => {
             }
         })
         const parsedStreams = await streams.json()
-        console.log(parsedStreams, '<- parsedStreams')
+        // console.log(parsedStreams, '<- parsedStreams')
         const cursor = parsedStreams.pagination.cursor
         const filteredStreams = parsedStreams.data.filter(
-            s => s.viewer_count <= req.params.viewers
+            s => s.viewer_count <= viewers
         );
         // if (filteredStreams.length === 0) {
         //     console.log('if statement hit')
