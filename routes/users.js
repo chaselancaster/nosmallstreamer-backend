@@ -4,7 +4,20 @@ const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+require('dotenv').config()
+
 const User = require('../models/User');
+
+const authenticateToken = (req, res, next) => {
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+    if (token == null) return res.sendStatus(401)
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+        if (err) return res.sendStatus(403)
+        req.user = user
+        next()
+    })
+}
 
 // Register
 router.post('/register', async (req, res, next) => {
@@ -56,11 +69,13 @@ router.post('/login', async (req, res) => {
         })
         if (foundUser) {
             if (bcrypt.compareSync(req.body.password, foundUser.password)) {
+                const accessToken = jwt.sign(foundUser.toJSON(), process.env.ACCESS_TOKEN_SECRET)
                 req.session.dbId = foundUser._id
                 req.session.logged = true;
                 res.json({
                     user: foundUser,
-                    success: true
+                    success: true,
+                    accessToken: accessToken
                 })
             } else {
                 res.json({
@@ -69,7 +84,9 @@ router.post('/login', async (req, res) => {
             }
         }
     } catch (err) {
-        res.json({ err })
+        res.json({ err,
+        message: 'error logging in' 
+        })
     }
 })
 
