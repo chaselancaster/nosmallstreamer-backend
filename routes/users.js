@@ -35,7 +35,6 @@ router.post('/register', async (req, res, next) => {
               message: 'Password can not be blank.'
             });
           }
-        
         const createdUser = await User.create(req.body)
         if (createdUser) {
             req.session.dbId = createdUser._id
