@@ -54,11 +54,24 @@ router.post('/register', async (req, res, next) => {
 router.post('/login', async (req, res) => {
     console.log('login route hit')
     try {
+        const { email, password } = req.body
+        if (!email) {
+            return res.send({
+              success: false,
+              message: 'Email can not be blank.'
+            });
+          }
+        if (!password) {
+            return res.send({
+              success: false,
+              message: 'Password can not be blank.'
+            });
+          }
         const foundUser = await User.findOne({
-            email: req.body.email
+            email: email
         })
         if (foundUser) {
-            if (bcrypt.compareSync(req.body.password, foundUser.password)) {
+            if (bcrypt.compareSync(password, foundUser.password)) {
                 const accessToken = jwt.sign(foundUser.toJSON(), process.env.ACCESS_TOKEN_SECRET)
                 req.session.dbId = foundUser._id
                 req.session.logged = true;
