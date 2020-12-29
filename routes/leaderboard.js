@@ -48,4 +48,13 @@ router.post('/submit/:name/:vote', async (req, res) => {
     }
 })
 
+router.get('/get', async (req, res) => {
+    console.log('leaderboard get route hit')
+    const streamers = await Streamer.find({})
+    // console.log(streamers, '<- streamers')
+    res.json({
+        streamers
+    })
+})
+
 module.exports = router;
