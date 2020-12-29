@@ -5,7 +5,7 @@ const UserSchema = new mongoose.Schema({
     name: { type: String, require: true },
     email: { type: String, unique: true },
     password: { type: String, required: true },
-    games: [Object]
+    watchLater: [ String ]
 });
 
 UserSchema.methods.hashPassword = function(password) {
