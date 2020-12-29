@@ -10,6 +10,7 @@ const PORT = process.env.PORT;
 
 const usersRouter = require('./routes/users');
 const apiRouter = require('./routes/api');
+const leaderboardRouter = require('./routes/leaderboard');
 
 // db / mongoose
 require('./db/db');
@@ -31,6 +32,7 @@ app.use(morgan('dev'));
 // routes
 app.use('/users', usersRouter);
 app.use('/api', apiRouter);
+app.use('/leaderboard', leaderboardRouter)
 
 // Catching error
 app.use((req, res, next) => {
