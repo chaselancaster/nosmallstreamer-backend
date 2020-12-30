@@ -11,6 +11,10 @@ router.post('/submit/:name/:vote', async (req, res) => {
     try {
         const { name, vote } = req.params;
         const findStreamer = await Streamer.find({ name: name }).exec();
+        // if (findStreamer.length === 0) {
+        //         findStreamer = await Streamer.create(req.params)
+        // }
+        /* Now voting logic here!!!!!! */
         if (findStreamer.length === 0) {
             const createdStreamer = await Streamer.create(req.params)
             console.log(createdStreamer, '<- createdStreamer')
@@ -27,6 +31,8 @@ router.post('/submit/:name/:vote', async (req, res) => {
                     message: 'Downvote has been given'
                 })
             } 
+            /* !!!! * /
+            /* else respond err */
         } else {
             if (vote === "upvote") {
                 findStreamer[0].score++
