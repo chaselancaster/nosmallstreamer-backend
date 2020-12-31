@@ -129,11 +129,12 @@ router.put('/update/:id', async (req, res) => {
     }
 })
 
-router.post('/watchlater/add/:id', async (req, res) => {
+router.post('/watchlater/add/:id/:name', async (req, res) => {
     console.log('watch later add route hit')
-    const { id } = req.params
+    const { id, name } = req.params
     const user = await User.findById(id)
     console.log(user, '<- user')
+    console.log(name, '<- name')
     
 })
 
