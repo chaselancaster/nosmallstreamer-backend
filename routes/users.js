@@ -125,14 +125,16 @@ router.put('/update/:id', async (req, res) => {
             success: true
         })
     } catch (err) {
-        console.log (err, '<- err in update user')
+        consosle.log (err, '<- err in update user')
     }
 })
 
-router.post('/watchlater/add', async (req, res) => {
+router.post('/watchlater/add/:id', async (req, res) => {
     console.log('watch later add route hit')
-    const user = await User.findById(req.session.dbId)
+    const { id } = req.params
+    const user = await User.findById(id)
     console.log(user, '<- user')
+    
 })
 
 module.exports = router;
