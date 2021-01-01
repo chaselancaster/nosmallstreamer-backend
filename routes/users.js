@@ -130,12 +130,26 @@ router.put('/update/:id', async (req, res) => {
 })
 
 router.post('/watchlater/add/:id/:name', async (req, res) => {
+    try {
     console.log('watch later add route hit')
     const { id, name } = req.params
     const user = await User.findById(id)
-    console.log(user, '<- user')
-    console.log(name, '<- name')
-    
+    const array = user.watchLater
+    for (let i = 0; i < array.length; i++) {
+        if (array[i] === name) {
+            return res.json({
+                message: 'User already in watch later.'
+            })
+        }
+    }
+    user.watchLater.push(name)
+    user.save()
+    res.json({
+        message: 'User added to watch later.'
+    })
+    } catch (err) {
+        console.log(err, '<- error in adding user to watchLater.')
+    } 
 })
 
 module.exports = router;
