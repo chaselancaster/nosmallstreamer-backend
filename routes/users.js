@@ -138,7 +138,8 @@ router.post('/watchlater/add/:id/:name', async (req, res) => {
     for (let i = 0; i < array.length; i++) {
         if (array[i] === name) {
             return res.json({
-                message: 'User already in watch later.'
+                message: 'User already in watch later.',
+                user: user
             })
         }
     }
@@ -154,13 +155,20 @@ router.post('/watchlater/add/:id/:name', async (req, res) => {
 })
 
 router.delete('/watchlater/:id/:streamer', async (req, res) => {
-    console.log('watchlater delete route hit')
-    console.log(req.params)
     const { id, streamer} = req.params;
     const user = await User.findById(id)
+    console.log(streamer, '<- streamer name')
     console.log(user, '<- user in watchlater delete route')
-    user.watchLater.splice(streamer, 1);
-    user.save()
+    for (let i = 0; i < user.watchLater.length; i++) {
+        if (user.watchLater[i] === streamer) {
+            user.watchLater.splice(i, 1)
+            user.save()
+            res.json({
+                message: 'Streamer successfully deleted',
+                user: user
+            })
+        }
+    }
     console.log(user, '<- user after splice')
 })
 
