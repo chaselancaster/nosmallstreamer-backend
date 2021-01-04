@@ -28,17 +28,21 @@ router.post('/submit/:name/:vote', async (req, res) => {
         //     })
         // }
         const findStreamer = await Streamer.find({ name: name }).exec();
+        console.log(findStreamer, '<- findStreamer')
         if (findStreamer.length === 0) {
             const createdStreamer = await Streamer.create(req.params)
+            console.log(createdStreamer, '<- createdStreamer')
             if (vote === "upvote") {
                 createdStreamer.score++
                 createdStreamer.save()
+                console.log(createdStreamer, '<- createdStreamer after upvote')
                 res.json({
                     message: 'Upvote has been given'
                 })
             } else if (vote === "downvote") {
                 createdStreamer.score--
                 createdStreamer.save()
+                console.log(createdStreamer, '<- createdStreamer after downvote')
                 res.json({
                     message: 'Downvote has been given'
                 })
@@ -48,12 +52,14 @@ router.post('/submit/:name/:vote', async (req, res) => {
             if (vote === "upvote") {
                 findStreamer[0].score++
                 findStreamer[0].save()
+                console.log(findStreamer, '<- findStreamer after upvote')
                 res.json({
                     message: 'Upvote has been given'
                 })
             } else if (vote === "downvote") {
                 findStreamer[0].score--
                 findStreamer[0].save()
+                console.log(findStreamer, '<- findStreamer after downvote')
                 res.json({
                     message: 'Downvote has been given'
                 })
