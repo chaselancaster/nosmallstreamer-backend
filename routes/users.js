@@ -145,11 +145,23 @@ router.post('/watchlater/add/:id/:name', async (req, res) => {
     user.watchLater.push(name)
     user.save()
     res.json({
-        message: 'User added to watch later.'
+        message: 'User added to watch later.',
+        user: user
     })
     } catch (err) {
         console.log(err, '<- error in adding user to watchLater.')
     } 
+})
+
+router.delete('/watchlater/:id/:streamer', async (req, res) => {
+    console.log('watchlater delete route hit')
+    console.log(req.params)
+    const { id, streamer} = req.params;
+    const user = await User.findById(id)
+    console.log(user, '<- user in watchlater delete route')
+    user.watchLater.splice(streamer, 1);
+    user.save()
+    console.log(user, '<- user after splice')
 })
 
 module.exports = router;
