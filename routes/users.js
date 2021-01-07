@@ -3,10 +3,26 @@ const router = express.Router();
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { default: fetch } = require('node-fetch');
 
 require('dotenv').config()
 
 const User = require('../models/User');
+
+const getStreamerProfileImage = async (id) => {
+    const streamer = await fetch(`https://api.twitch.tv/helix/users?id=${id}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${process.env.ACCESS_TOKEN}`,
+                'Client-Id': process.env.CLIENT_ID
+            }
+        })
+    const parsedStreamer = await streamer.json()
+    // console.log(parsedStreamer, '<- parsedStreamer')
+    const profileImageUrl = parsedStreamer.data[0].profile_image_url
+    // console.log(profileImageUrl, "<- profileImageUrl")
+    return profileImageUrl
+}
 
 // Register
 router.post('/register', async (req, res, next) => {
@@ -135,6 +151,7 @@ router.post('/watchlater/add/:id/:name/:user_id', async (req, res) => {
     const { id, name, user_id } = req.params
     const user = await User.findById(id)
     const array = user.watchLater
+    const streamerProfileImage = await getStreamerProfileImage(user_id)
     for (let i = 0; i < array.length; i++) {
         if (array[i] === name) {
             return res.json({
@@ -145,7 +162,8 @@ router.post('/watchlater/add/:id/:name/:user_id', async (req, res) => {
     }
     user.watchLater.push({
         name,
-        user_id
+        user_id,
+        profile_image_url: streamerProfileImage
     })
     user.save()
     res.json({
