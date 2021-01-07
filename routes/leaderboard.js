@@ -1,4 +1,5 @@
 const express = require('express');
+const { default: fetch } = require('node-fetch');
 const { find } = require('../models/Streamer');
 const router = express.Router();
 
@@ -6,27 +7,15 @@ require('dotenv').config()
 
 const Streamer = require('../models/Streamer');
 
-router.post('/submit/:name/:vote', async (req, res) => {
+// const getStreamerInfo = async (id) => {
+//     const streamer = await fetch(`https://`)
+// }
+
+router.post('/submit/:name/:vote/:user_id', async (req, res) => {
     console.log('vote route in back-end hit')
     try {
-        const { name, vote } = req.params;
-        // let votedStreamer = await Streamer.find({ name: name }).exec();
-        // if (votedStreamer.length === 0) {
-        //         votedStreamer = await Streamer.create(req.params)
-        // }
-        // if (vote === "upvote") {
-        //     votedStreamer.score++
-        //     votedStreamer.save()
-        //     res.json({
-        //         message: 'Upvote has been given'
-        //     })
-        // } else if (vote === "downvote") {
-        //     votedStreamer.score--
-        //     votedStreamer.save()
-        //     res.json({
-        //         message: 'Downvote has been given'
-        //     })
-        // }
+        const { name, vote, user_id } = req.params;
+        console.log(user_id, '<- user_id')
         const findStreamer = await Streamer.find({ name: name }).exec();
         console.log(findStreamer, '<- findStreamer')
         if (findStreamer.length === 0) {

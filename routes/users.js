@@ -129,7 +129,7 @@ router.put('/update/:id', async (req, res) => {
     }
 })
 
-router.post('/watchlater/add/:id/:name', async (req, res) => {
+router.post('/watchlater/add/:id/:name/:user_id', async (req, res) => {
     try {
     console.log('watch later add route hit')
     const { id, name } = req.params
@@ -154,7 +154,7 @@ router.post('/watchlater/add/:id/:name', async (req, res) => {
     } 
 })
 
-router.delete('/watchlater/:id/:streamer', async (req, res) => {
+router.delete('/watchlater/:id/:streamer/', async (req, res) => {
     const { id, streamer} = req.params;
     const user = await User.findById(id)
     console.log(streamer, '<- streamer name')

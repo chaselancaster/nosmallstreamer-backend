@@ -93,7 +93,7 @@ router.get('/more/:gameId/:cursor', async (req, res) => {
 })
 
 
-// Method to get token
+// Method to get Twitch token
 // const tokenCall = await fetch(`https://id.twitch.tv/oauth2/token?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}&grant_type=client_credentials`, { method: 'POST' 
 //  })
 //  const parsedToken = await tokenCall.json();
