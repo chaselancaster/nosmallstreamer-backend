@@ -29,9 +29,14 @@ router.post('/submit/:name/:vote/:user_id', async (req, res) => {
         // console.log(user_id, '<- user_id')
         const findStreamer = await Streamer.find({ name: name }).exec();
         // console.log(findStreamer, '<- findStreamer')
+        console.log(req.params, '<- req.params')
         const streamerProfileImage = await getStreamerProfileImage(user_id)
         if (findStreamer.length === 0) {
-            const createdStreamer = await Streamer.create(req.params)
+            const createdStreamer = await Streamer.create({
+                name,
+                user_id,
+                profile_image_url: streamerProfileImage
+            })
             // console.log(createdStreamer, '<- createdStreamer')
             if (vote === "upvote") {
                 createdStreamer.score++
