@@ -5,7 +5,11 @@ const UserSchema = new mongoose.Schema({
     name: { type: String, require: true },
     email: { type: String, unique: true },
     password: { type: String, required: true },
-    watchLater: [ String ]
+    watchLater: [ { 
+        name: { type: String },
+        user_id: { type: String },
+        profile_image_url: { type: String }
+    } ]
 });
 
 UserSchema.methods.hashPassword = function(password) {

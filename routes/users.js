@@ -132,7 +132,7 @@ router.put('/update/:id', async (req, res) => {
 router.post('/watchlater/add/:id/:name/:user_id', async (req, res) => {
     try {
     console.log('watch later add route hit')
-    const { id, name } = req.params
+    const { id, name, user_id } = req.params
     const user = await User.findById(id)
     const array = user.watchLater
     for (let i = 0; i < array.length; i++) {
@@ -143,7 +143,10 @@ router.post('/watchlater/add/:id/:name/:user_id', async (req, res) => {
             })
         }
     }
-    user.watchLater.push(name)
+    user.watchLater.push({
+        name,
+        user_id
+    })
     user.save()
     res.json({
         message: 'User added to watch later.',
