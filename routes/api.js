@@ -18,22 +18,6 @@ const authenticateToken = (req, res, next) => {
     })
 }
 
-const findStreams = async (gameId) => {
-    const streams = {};
-    while (streams.length === 0) {
-        const fetchCall = await fetch(`https://api.twitch.tv/helix/streams?game_id=${gameId}&first=100`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${process.env.ACCESS_TOKEN}`,
-                'Client-Id': process.env.CLIENT_ID,
-            }
-        })
-        const parsedFetchCall = await fetchCall.json()
-        streams = parsedFetchCall.data
-    }
-    return streams
-}
-
 router.get('/stream/:name/:viewers', authenticateToken, async (req, res) => {
     console.log('first stream route it')
     try {
