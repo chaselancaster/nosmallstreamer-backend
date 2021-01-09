@@ -18,15 +18,12 @@ const getStreamerProfileImage = async (id) => {
             }
         })
     const parsedStreamer = await streamer.json()
-    // console.log(parsedStreamer, '<- parsedStreamer')
     const profileImageUrl = parsedStreamer.data[0].profile_image_url
-    // console.log(profileImageUrl, "<- profileImageUrl")
     return profileImageUrl
 }
 
 // Register
 router.post('/register', async (req, res, next) => {
-    console.log('register route hit')
     try {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -68,7 +65,6 @@ router.post('/register', async (req, res, next) => {
 
 // Login
 router.post('/login', async (req, res) => {
-    console.log('login route hit')
     try {
         const { email, password } = req.body
         if (!email) {
@@ -114,7 +110,6 @@ router.put('/update/:id', async (req, res) => {
     const userId = req.session.dbId ||req.params.id
     try {
         const user = await User.findById(userId)
-        console.log(user, '<- user in update route')
         // Checking if any field is empty and setting the req.body variable to keep the old info
         if (req.body.password === "") {
             req.body.password = user.password;
@@ -147,7 +142,6 @@ router.put('/update/:id', async (req, res) => {
 
 router.post('/watchlater/add/:id/:name/:user_id', async (req, res) => {
     try {
-    console.log('watch later add route hit')
     const { id, name, user_id } = req.params
     const user = await User.findById(id)
     const array = user.watchLater
@@ -178,8 +172,6 @@ router.post('/watchlater/add/:id/:name/:user_id', async (req, res) => {
 router.delete('/watchlater/:id/:streamer/', async (req, res) => {
     const { id, streamer} = req.params;
     const user = await User.findById(id)
-    console.log(streamer, '<- streamer name')
-    console.log(user, '<- user in watchlater delete route')
     for (let i = 0; i < user.watchLater.length; i++) {
         if (user.watchLater[i].name === streamer) {
             user.watchLater.splice(i, 1)
@@ -190,7 +182,6 @@ router.delete('/watchlater/:id/:streamer/', async (req, res) => {
             })
         }
     }
-    console.log(user, '<- user after splice')
 })
 
 module.exports = router;
