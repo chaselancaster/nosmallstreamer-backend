@@ -181,7 +181,7 @@ router.delete('/watchlater/:id/:streamer/', async (req, res) => {
     console.log(streamer, '<- streamer name')
     console.log(user, '<- user in watchlater delete route')
     for (let i = 0; i < user.watchLater.length; i++) {
-        if (user.watchLater[i] === streamer) {
+        if (user.watchLater[i].name === streamer) {
             user.watchLater.splice(i, 1)
             user.save()
             res.json({
