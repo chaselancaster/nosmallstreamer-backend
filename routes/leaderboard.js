@@ -27,38 +27,24 @@ router.post('/submit/:name/:vote/:user_id', async (req, res) => {
         const findStreamer = await Streamer.find({ name: name }).exec();
         const streamerProfileImage = await getStreamerProfileImage(user_id)
         if (findStreamer.length === 0) {
-            const createdStreamer = await Streamer.create({
+            findStreamer = await Streamer.create({
                 name,
                 user_id,
                 profile_image_url: streamerProfileImage
             })
-            if (vote === "upvote") {
-                createdStreamer.score++
-                createdStreamer.save()
-                res.json({
-                    message: 'Upvote has been given'
-                })
-            } else if (vote === "downvote") {
-                createdStreamer.score--
-                createdStreamer.save()
-                res.json({
-                    message: 'Downvote has been given'
-                })
-            } 
-        } else {
-            if (vote === "upvote") {
-                findStreamer[0].score++
-                findStreamer[0].save()
-                res.json({
-                    message: 'Upvote has been given'
-                })
-            } else if (vote === "downvote") {
-                findStreamer[0].score--
-                findStreamer[0].save()
-                res.json({
-                    message: 'Downvote has been given'
-                })
-            } 
+        }
+        if (vote === "upvote") {
+            findStreamer[0].score++
+            findStreamer[0].save()
+            res.json({
+                message: 'Upvote has been given'
+            })
+        } else if (vote === "downvote") {
+            findStreamer[0].score--
+            findStreamer[0].save()
+            res.json({
+                message: 'Downvote has been given'
+            })
         }
     } catch (err) {
         console.log(err, '<- err in submit vote')

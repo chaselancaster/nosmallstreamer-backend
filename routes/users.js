@@ -172,15 +172,21 @@ router.post('/watchlater/add/:id/:name/:user_id', async (req, res) => {
 router.delete('/watchlater/:id/:streamer/', async (req, res) => {
     const { id, streamer} = req.params;
     const user = await User.findById(id)
-    for (let i = 0; i < user.watchLater.length; i++) {
-        if (user.watchLater[i].name === streamer) {
-            user.watchLater.splice(i, 1)
-            user.save()
-            res.json({
-                message: 'Streamer successfully deleted',
-                user: user
-            })
+    if (user) {
+        for (let i = 0; i < user.watchLater.length; i++) {
+            if (user.watchLater[i].name === streamer) {
+                user.watchLater.splice(i, 1)
+                user.save()
+                res.json({
+                    message: 'Streamer successfully deleted',
+                    user: user
+                })
+            }
         }
+    } else {
+        res.json({
+            message: 'User not found'
+        })
     }
 })
 
