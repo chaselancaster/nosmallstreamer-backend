@@ -144,10 +144,10 @@ router.post('/watchlater/add/:id/:name/:user_id', async (req, res) => {
     try {
     const { id, name, user_id } = req.params
     const user = await User.findById(id)
-    const array = user.watchLater
+    const userWatchLater = user.watchLater
     const streamerProfileImage = await getStreamerProfileImage(user_id)
-    for (let i = 0; i < array.length; i++) {
-        if (array[i] === name) {
+    for (let i = 0; i < userWatchLater.length; i++) {
+        if (userWatchLater[i] === name) {
             return res.json({
                 message: 'User already in watch later.',
                 user: user
