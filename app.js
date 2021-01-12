@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const session = require('express-session');
 const morgan = require('morgan');
@@ -5,9 +7,9 @@ const mongoose = require('mongoose');
 const createError = require('http-errors');
 const cors = require('cors');
 
-require('dotenv').config();
 const PORT = process.env.PORT;
 
+// routers
 const usersRouter = require('./routes/users');
 const apiRouter = require('./routes/api');
 const leaderboardRouter = require('./routes/leaderboard');
